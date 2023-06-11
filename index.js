@@ -1,6 +1,6 @@
 var container = document.getElementsByClassName('container')[0];
 
-var tags = "cats";
+var tags = "";
 var url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
 
 var page = 1;
@@ -49,5 +49,12 @@ function handleScroll() {
 }
 
 window.addEventListener('scroll', handleScroll);
-
-loadMorePictures();
+if (tags != "") {
+    loadMorePictures();
+} else {
+    container.innerHTML += `
+        <div class="homepage">
+            <h1 class="homepage-name">Flickr Home Page</h1>
+        </div>
+    `
+}
