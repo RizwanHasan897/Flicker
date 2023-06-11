@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    align-self: center;
+    justify-content: center;
+}
+
+.image {
+    width: calc(25% - 20px); /* Adjust the width as per your requirement */
+    height: auto;
+    border: 2px solid black;
+    object-fit: cover;
+    margin: 10px; /* Add margin to create space around each image */
+}
