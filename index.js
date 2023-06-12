@@ -1,6 +1,7 @@
 var container = document.getElementsByClassName('container')[0];
 var homepage = document.getElementsByClassName('homepage')[0];
 
+
 var tags = "";
 var url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
 
