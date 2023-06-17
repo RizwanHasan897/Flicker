@@ -1,6 +1,6 @@
 var container = document.getElementsByClassName('container')[0];
 var homepage = document.getElementsByClassName('homepage')[0];
-
+var loadImg = document.getElementsByClassName('load-image')[0];
 var tags = "";
 var url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
 
@@ -8,6 +8,11 @@ var page = 1;
 var perPage = 20;
 var photosLoaded = 0;
 var photos = [];
+
+var loadingPage = document.createElement('div');
+loadingPage.id = 'loading-page';
+loadingPage.innerHTML = '<div class="loader"></div>';
+
 
 async function flickrApi(page, perPage) {
     var urlWithPagination = `${url}&page=${page}&per_page=${perPage}`;
@@ -39,6 +44,7 @@ function renderPhotos() {
     }
     container.appendChild(fragment);
     photosLoaded = photos.length;
+    document.body.removeChild(loadingPage);
 }
 
 function handleScroll() {
@@ -49,7 +55,8 @@ function handleScroll() {
     }
 }
 
-document.addEventListener("click", () => {
+loadImg.addEventListener("click", () => {
+    document.body.appendChild(loadingPage);
     tags = "car";
     url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
     console.log('asda')
@@ -58,7 +65,6 @@ document.addEventListener("click", () => {
     loadMorePictures();
     window.addEventListener('scroll', handleScroll);
 });
-
 
 
 
