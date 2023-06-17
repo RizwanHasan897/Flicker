@@ -62,13 +62,56 @@ function handleScroll() {
     }
 }
 
+function loadNavBar() {
+    var navBar = document.createElement('div');
+    navBar.classList.add('nav-bar');
+    navBar.innerHTML = `
+        <h1>Flickr Photo Gallery</h1>
+    `;
+
+    var category = document.createElement('select');
+    category.classList.add('category');
+
+    var categoryList = [
+        'SpiderMan',
+        'Universe',
+        'Jungle',
+    ];
+
+    var selectOption = document.createElement('option');
+    selectOption.disabled = true;
+    selectOption.selected = true;
+    selectOption.textContent = 'Select Category';
+    category.appendChild(selectOption);
+
+    categoryList.forEach(item => {
+        var option = document.createElement('option');
+        option.classList.add('option');
+        option.textContent = item;
+        category.appendChild(option);
+    });
+
+
+    category.addEventListener('change', function () {
+        var selectedCategory = category.value;
+        container.innerHTML = '';
+        tags = selectedCategory;
+        url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
+        console.log('asda')
+        homepage.style.display = "none";
+        flickrApi(page, perPage);
+        loadMorePictures();
+        window.addEventListener('scroll', handleScroll);
+    });
+
+
+    document.body.appendChild(navBar);
+    navBar.appendChild(category);
+    removeLoadingPage();
+}
+
 loadImg.addEventListener("click", () => {
     document.body.appendChild(loadingPage);
-    tags = "car";
-    url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
-    console.log('asda')
-    homepage.style.display = "none";
-    flickrApi(page, perPage);
-    loadMorePictures();
-    window.addEventListener('scroll', handleScroll);
+    loadNavBar();
+    container.innerHTML = 'Select Catagories'
 });
