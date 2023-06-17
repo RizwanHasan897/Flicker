@@ -1,6 +1,7 @@
 var container = document.getElementsByClassName('container')[0];
 var homepage = document.getElementsByClassName('homepage')[0];
 var loadImg = document.getElementsByClassName('load-image')[0];
+
 var tags = "";
 var url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
 
@@ -13,11 +14,17 @@ var loadingPage = document.createElement('div');
 loadingPage.id = 'loading-page';
 loadingPage.innerHTML = '<div class="loader"></div>';
 
+function removeLoadingPage() {
+    if (document.body.contains(loadingPage)) {
+        document.body.removeChild(loadingPage);
+    }
+}
 
 async function flickrApi(page, perPage) {
     var urlWithPagination = `${url}&page=${page}&per_page=${perPage}`;
     var response = await fetch(urlWithPagination);
     var data = response.json();
+
     return data;
 }
 
@@ -42,9 +49,9 @@ function renderPhotos() {
         img.src = photos[i];
         fragment.appendChild(img);
     }
+    removeLoadingPage();
     container.appendChild(fragment);
     photosLoaded = photos.length;
-    document.body.removeChild(loadingPage);
 }
 
 function handleScroll() {
@@ -65,6 +72,3 @@ loadImg.addEventListener("click", () => {
     loadMorePictures();
     window.addEventListener('scroll', handleScroll);
 });
-
-
-
