@@ -74,7 +74,8 @@ function loadNavBar() {
 }
 
 loadImg.addEventListener("click", () => {
-    document.body.appendChild(loadingPage);
     loadNavBar();
-    container.innerHTML = 'Select Catagories'
+    homepage.innerHTML = `<div class="Select-cat">
+        <h1>Select A Category</h1>
+    </div>`
 });
