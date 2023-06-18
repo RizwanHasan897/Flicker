@@ -1,0 +1,40 @@
+body {
+    background-color: #003A70;
+    color: #FFF;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.image {
+    width: 500px;
+    max-height: 500px;
+    border: 2px solid black;
+    object-fit: cover;
+    margin: 10px; 
+    animation: float 3s ease-in-out infinite;
+}
+
+.homepage {
+    display: none;
+}
+

@@ -10,7 +10,6 @@ var perPage = 20;
 var photosLoaded = 0;
 var photos = [];
 
-
 function removeLoadingPage() {
     if (document.body.contains(loadingPage)) {
         document.body.removeChild(loadingPage);

@@ -18,7 +18,7 @@
     margin: 10px; 
 }
 
-.homepage {
+.homepage, .select-cat {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,4 +109,33 @@
 /* CSS styles for the options in the category dropdown */
 .option {
     padding: 5px;
+}
+
+.select-cat > h1 {
+    font-size: 10rem;
+    font-style: italic;
+    animation: colorChange 5s infinite;
+}
+
+@keyframes colorChange {
+    0% {
+        color: red;
+    }
+    25% {
+        color: blue;
+    }
+    50% {
+        color: green;
+    }
+    75% {
+        color: yellow;
+    }
+    100% {
+        color: purple;
+    }
+}
+
+.select-cat-image {
+    width: 200px;
+    height: 200px;
 }

@@ -11,6 +11,7 @@ var photosLoaded = 0;
 var photos = [];
 
 
+
 function removeLoadingPage() {
     if (document.body.contains(loadingPage)) {
         document.body.removeChild(loadingPage);
@@ -49,7 +50,7 @@ function renderPhotos() {
     removeLoadingPage();
     container.appendChild(fragment);
     photosLoaded = photos.length;
-}
+};
 
 function handleScroll() {
     if (window.scrollY === 0) {
@@ -57,7 +58,18 @@ function handleScroll() {
     } else if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         loadMorePictures();
     }
-}
+};
+
+var bubble = document.createElement('div');
+bubble.classList.add('bubble-container');
+for (let i = 1; i > 9; i++) {
+    var littleBubble = document.createElement('div');
+    littleBubble.classList.add(`buuble bubble-${i}`);
+    bubble.appendChild(littleBubble);
+};
+
+document.body.appendChild(bubble)
+
 
 homepage.style.display = "none";
 flickrApi(page, perPage);

@@ -22,6 +22,16 @@ function removeLoadingPage() {
     }
 }
 
+function unloadCSS() {
+    var links = document.head.getElementsByTagName('link');
+    for (var i = links.length - 1; i >= 0; i--) {
+        var link = links[i];
+        if (link.rel === 'stylesheet' && link.getAttribute('href') !== 'index.css') {
+            link.parentNode.removeChild(link);
+        }
+    }
+}
+
 function loadNavBar() {
     var navBar = document.createElement('div');
     navBar.classList.add('nav-bar');
@@ -53,11 +63,11 @@ function loadNavBar() {
         category.appendChild(option);
     });
 
-
     category.addEventListener('change', function () {
         var selectedCategory = category.value;
         container.innerHTML = '';
-        loadImage(selectedCategory)
+        unloadCSS();
+        loadImage(selectedCategory);
     });
 
     function loadImage(selectedCategory) {
@@ -65,8 +75,12 @@ function loadNavBar() {
         script.src = `Category/${selectedCategory}/${selectedCategory}.js`
         document.body.appendChild(script)
         document.body.appendChild(loadingPage);
-    }
 
+        var link = document.createElement("link");
+        link.href = `Category/${selectedCategory}/${selectedCategory}.css`;
+        link.rel = "stylesheet";
+        document.head.appendChild(link);
+    }
 
     document.body.appendChild(navBar);
     navBar.appendChild(category);
@@ -75,7 +89,8 @@ function loadNavBar() {
 
 loadImg.addEventListener("click", () => {
     loadNavBar();
-    homepage.innerHTML = `<div class="Select-cat">
+    homepage.innerHTML = `<div class="select-cat">
         <h1>Select A Category</h1>
+        <img class="select-cat-image" src="image/Google-Photos-Logo-2015.png">
     </div>`
 });
