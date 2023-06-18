@@ -76,6 +76,7 @@ function loadNavBar() {
         'SpiderMan',
         'Universe',
         'Jungle',
+        'Ocean'
     ];
 
     var selectOption = document.createElement('option');
