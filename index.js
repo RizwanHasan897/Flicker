@@ -15,6 +15,7 @@ var script;
 var loadingPage = document.createElement('div');
 loadingPage.id = 'loading-page';
 loadingPage.innerHTML = '<div class="loader"></div>';
+var categoryCss = ''
 
 function removeLoadingPage() {
     if (document.body.contains(loadingPage)) {
@@ -22,12 +23,64 @@ function removeLoadingPage() {
     }
 }
 
-function unloadCSS() {
-    var links = document.head.getElementsByTagName('link');
-    for (var i = links.length - 1; i >= 0; i--) {
-        var link = links[i];
-        if (link.rel === 'stylesheet' && link.getAttribute('href') !== 'index.css') {
-            link.parentNode.removeChild(link);
+async function flickrApi(page, perPage) {
+    var urlWithPagination = `${url}&page=${page}&per_page=${perPage}`;
+    var response = await fetch(urlWithPagination);
+    var data = response.json();
+
+    return data;
+}
+
+function loadMorePictures() {
+    flickrApi(page, perPage).then(data => {
+        var photoArray = data.photos.photo;
+        var imgUrl = "";
+        photoArray.forEach(photo => {
+            imgUrl = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
+            photos.push(imgUrl);
+        });
+        page++;
+        renderPhotos();
+        loadCSS(categoryCss);
+    });
+}
+
+function renderPhotos() {
+    var fragment = document.createDocumentFragment();
+    for (var i = photosLoaded; i < photos.length; i++) {
+        var img = document.createElement('img');
+        img.src = photos[i];
+        fragment.appendChild(img);
+    }
+    removeLoadingPage();
+    container.appendChild(fragment);
+    photosLoaded = photos.length;
+}
+
+function handleScroll() {
+    if (window.scrollY === 0) {
+        renderPhotos();
+    } else if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        loadMorePictures();
+    }
+}
+
+
+function removeLoadingPage() {
+    if (document.body.contains(loadingPage)) {
+        document.body.removeChild(loadingPage);
+    }
+}
+
+function loadCSS(selectedCategory) {
+    var images = document.getElementsByTagName('img')
+
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].classList > 0) {
+            images[i].classList.remove(images[i].classList[0]);
+            images[i].classList.add(selectedCategory);
+        } else {
+            images[i].classList.add(selectedCategory);
         }
     }
 }
@@ -44,7 +97,7 @@ function loadNavBar() {
 
     var categoryList = [
         'SpiderMan',
-        'Universe',
+        'Galaxy',
         'Jungle',
         'Ocean'
     ];
@@ -56,6 +109,7 @@ function loadNavBar() {
     category.appendChild(selectOption);
     removeLoadingPage();
 
+
     categoryList.forEach(item => {
         var option = document.createElement('option');
         option.classList.add('option');
@@ -66,21 +120,26 @@ function loadNavBar() {
     category.addEventListener('change', function () {
         var selectedCategory = category.value;
         container.innerHTML = '';
-        unloadCSS();
+        loadCSS(selectedCategory);
+        categoryCss = selectedCategory;
         loadImage(selectedCategory);
+        document.body.appendChild(loadingPage)
+
     });
 
     function loadImage(selectedCategory) {
-        script = document.createElement('script')
-        script.src = `Category/${selectedCategory}/${selectedCategory}.js`
-        document.body.appendChild(script)
-        document.body.appendChild(loadingPage);
+        tags = selectedCategory;
+        url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
+        homepage.style.display = "none";
+        flickrApi(page, perPage);
+        loadMorePictures();
+        window.addEventListener('scroll', handleScroll);
 
-        var link = document.createElement("link");
-        link.href = `Category/${selectedCategory}/${selectedCategory}.css`;
-        link.rel = "stylesheet";
-        document.head.appendChild(link);
-    }
+        loadCSS(selectedCategory);
+
+    };
+
+
 
     document.body.appendChild(navBar);
     navBar.appendChild(category);
@@ -94,3 +153,4 @@ loadImg.addEventListener("click", () => {
         <img class="select-cat-image" src="image/Google-Photos-Logo-2015.png">
     </div>`
 });
+
