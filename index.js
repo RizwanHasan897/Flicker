@@ -73,20 +73,23 @@ function removeLoadingPage() {
 }
 
 function loadCSS(selectedCategory) {
-    var images = document.getElementsByTagName('img')
+    var images = document.getElementsByTagName('img');
 
     for (var i = 0; i < images.length; i++) {
         if (images[i].classList > 0) {
             images[i].classList.remove(images[i].classList[0]);
             images[i].classList.add(selectedCategory);
+
+
         } else {
             images[i].classList.add(selectedCategory);
         }
     }
+    document.body.style.backgroundImage = `url(image/${selectedCategory}.jpg)`;
 }
 
 function loadNavBar() {
-    var navBar = document.createElement('div');
+    var navBar = document.createElement('nav');
     navBar.classList.add('nav-bar');
     navBar.innerHTML = `
         <h1>Flickr Photo Gallery</h1>

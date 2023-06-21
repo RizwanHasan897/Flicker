@@ -85,7 +85,7 @@ img {
     }
 }
 
-.nav-bar {
+nav {
     display: flex;
     position: fixed;
     justify-content: space-around;
@@ -210,6 +210,7 @@ img {
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
     background-color: #8eaf7a;
+    background-size: cover;
 }
 
 @keyframes moveImage {
