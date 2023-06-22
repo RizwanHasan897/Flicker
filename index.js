@@ -6,8 +6,6 @@ var popUp = document.getElementsByClassName('pop-up')[0];
 var popUpImg = document.getElementsByClassName('pop-up-img')[0];
 var popUpCloseImg = document.getElementsByClassName('pop-up-close')[0];
 
-
-
 var tags = "";
 var url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
 
