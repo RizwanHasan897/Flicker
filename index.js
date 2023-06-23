@@ -2,6 +2,10 @@ var container = document.getElementsByClassName('container')[0];
 var homepage = document.getElementsByClassName('homepage')[0];
 var loadImg = document.getElementsByClassName('load-image')[0];
 
+var popUp = document.getElementsByClassName('pop-up')[0];
+var popUpImg = document.getElementsByClassName('pop-up-img')[0];
+var popUpCloseImg = document.getElementsByClassName('pop-up-close')[0];
+
 var tags = "";
 var url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=9f6078ec1fbacb890d45df32043f7d9a&tags=${tags}&format=json&nojsoncallback=1`;
 
@@ -50,12 +54,39 @@ function renderPhotos() {
     for (var i = photosLoaded; i < photos.length; i++) {
         var img = document.createElement('img');
         img.src = photos[i];
+
+        img.addEventListener('click', function (event) {
+            loadPopUp(event.target.src);
+        });
+
         fragment.appendChild(img);
     }
     removeLoadingPage();
     container.appendChild(fragment);
     photosLoaded = photos.length;
 }
+
+function loadPopUp(image) {
+    var popUp = document.createElement('div');
+    popUp.classList.add('pop-up');
+
+
+    var popImg = document.createElement('img');
+    popImg.src = image;
+
+
+    var closePopUp = document.createElement('p');
+    closePopUp.innerHTML = 'X'
+
+    closePopUp.addEventListener('click', () => {
+        document.body.removeChild(popUp)
+    })
+
+
+    popUp.appendChild(closePopUp)
+    popUp.appendChild(popImg)
+    document.body.appendChild(popUp);
+};
 
 function handleScroll() {
     if (window.scrollY === 0) {
@@ -156,4 +187,3 @@ loadImg.addEventListener("click", () => {
         <img class="select-cat-image" src="image/Google-Photos-Logo-2015.png">
     </div>`
 });
-
